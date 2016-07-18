@@ -43,11 +43,15 @@ namespace COMP2007_S2016_MidTerm
                 //with the using statments that we added query the tasks table
                 var Tasks = (from allTasks in db.Todos
                              select allTasks);
+                int NumOfTasks = Tasks.Count();
+                string showNumOfTasks = NumOfTasks.ToString();
 
+                NumOFTasksLabel.Text = showNumOfTasks;
                 // take the results and bind them to the gridview
                 TodoGridView.DataSource = Tasks.AsQueryable().OrderBy(SortString).ToList();
                 TodoGridView.DataBind();
             }
+
         }
 
         /// <summary>
@@ -134,6 +138,34 @@ namespace COMP2007_S2016_MidTerm
 
             // refresh the view to display the change
             this.GetTask();
+        }
+
+        protected void TodoGridView_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if(IsPostBack)
+            {
+                if(e.Row.RowType == DataControlRowType.Header)
+                {
+                    LinkButton linkbutton = new LinkButton();
+
+                    for(int index =0; index <TodoGridView.Columns.Count -1; index++)
+                    {
+                        if(TodoGridView.Columns[index].SortExpression == Session["SortColumn"].ToString())
+                        {
+                            if(Session["SortDirecion"].ToString() == "ASC")
+                            {
+                                linkbutton.Text = " <i class='fa fa-caret-up fa-lg'></i>";
+                            }
+                            else
+                            {
+                                linkbutton.Text = " <i class='fa fa-caret-down fa-lg'></i>";
+                            }
+
+                            e.Row.Cells[index].Controls.Add(linkbutton);
+                        }
+                    }
+                }
+            }
         }
     }
 }

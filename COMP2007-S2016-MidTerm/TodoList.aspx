@@ -6,7 +6,8 @@
              <div class="col-md-offset-2 col-md-8">
                  <h1>To Do List</h1>
                  <a href="TodoDetails.aspx" class="btn btn-success btn-md"><i class="fa fa-plus"></i>Add Task</a>
-
+                 <asp:Label runat="server" Text="Number Of Tasks: "><asp:Label runat ="server" ID="NumOFTasksLabel"></asp:Label></asp:Label>
+                 
                  <div>
                      <label for="PageSizeDropDownList">Records Per Page: </label>
                      <asp:DropDownList ID="PageSizeDropDownList" runat="server"
@@ -22,7 +23,7 @@
                      ID="TodoGridView" AutoGenerateColumns="false" DataKeyNames="TodoID"
                      OnRowDeleting="ToDoGridView_RowDeleting" AllowPaging="true" PageSize="3"
                      OnPageIndexChanging="ToDoGridView_PageIndexChanging" AllowSorting="true"
-                     OnSorting="ToDoGridView_Sorting"
+                     OnSorting="ToDoGridView_Sorting" 
                      PagerStyle-CssClass="pagination-ys">
                      <Columns>
                          <asp:BoundField DataField="TodoID" HeaderText="ToDo ID" visible="false" />
