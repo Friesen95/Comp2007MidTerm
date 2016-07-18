@@ -19,10 +19,10 @@
                  </div>
 
                  <asp:GridView runat="server" CssClass="table table-bordered table-striped table-hover"
-                     ID="ToDoGridView" AutoGenerateColumns="false" DataKeyNames="TodoID"
+                     ID="TodoGridView" AutoGenerateColumns="false" DataKeyNames="TodoID"
                      OnRowDeleting="ToDoGridView_RowDeleting" AllowPaging="true" PageSize="3"
                      OnPageIndexChanging="ToDoGridView_PageIndexChanging" AllowSorting="true"
-                     OnSorting="ToDoGridView_Sorting" OnRowDataBound="ToDoGridView_RowDataBound"
+                     OnSorting="ToDoGridView_Sorting"
                      PagerStyle-CssClass="pagination-ys">
                      <Columns>
                          <asp:BoundField DataField="TodoID" HeaderText="ToDo ID" visible="false" />

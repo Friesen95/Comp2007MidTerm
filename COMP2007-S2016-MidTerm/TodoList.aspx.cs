@@ -45,8 +45,8 @@ namespace COMP2007_S2016_MidTerm
                              select allTasks);
 
                 // take the results and bind them to the gridview
-                ToDoGridView.DataSource = Tasks.AsQueryable().OrderBy(SortString).ToList();
-                ToDoGridView.DataBind();
+                TodoGridView.DataSource = Tasks.AsQueryable().OrderBy(SortString).ToList();
+                TodoGridView.DataBind();
             }
         }
 
@@ -57,6 +57,27 @@ namespace COMP2007_S2016_MidTerm
         /// <param name="e"></param>
         protected void ToDoGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
+            // find out which row was clicked
+            int SelectedRow = e.RowIndex;
+
+            //get the Selected ID
+            int TodoID = Convert.ToInt32(TodoGridView.DataKeys[SelectedRow].Values["TodoID"]);
+
+            //find selected row and delete it
+            using (TodoConnection db = new TodoConnection())
+            {
+                Todo deletedTask = (from Tasks in db.Todos
+                                    where Tasks.TodoID == TodoID
+                                    select Tasks).FirstOrDefault();
+                //remove the task
+                db.Todos.Remove(deletedTask);
+
+                //save the changes 
+                db.SaveChanges();
+
+                // refresh the page 
+                this.GetTask();
+            }
 
         }
 
@@ -67,7 +88,11 @@ namespace COMP2007_S2016_MidTerm
         /// <param name="e"></param>
         protected void ToDoGridView_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
+            // get the new page number
+            TodoGridView.PageIndex = e.NewPageIndex;
 
+            // refresh the grid to display new rows from new page number
+            this.GetTask();
         }
 
         /// <summary>
@@ -77,23 +102,38 @@ namespace COMP2007_S2016_MidTerm
         /// <param name="e"></param>
         protected void ToDoGridView_Sorting(object sender, GridViewSortEventArgs e)
         {
+            // get the column bu which you want to sort by
+            Session["SortColumn"] = e.SortExpression;
 
-        }
+            // refresh the grif with new sorting option
+            this.GetTask();
 
-
-        protected void ToDoGridView_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-
-        }
-
+            //if you want to toogle the direction of the sort
+            Session["SortDirection"] = Session["SortDirection"].ToString() == "ASC" ? "DECS" : "ASC";
+         }
+            /// <summary>
+            /// This Method will change the state of the Task (Complete or incomplete) 
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
         protected void Completed_CheckedChanged(object sender, EventArgs e)
         {
-
+            // When the check box state is changed make a call to the database, and change the state in the database to what it was changed to in the gridview
+            // if i get enough time do it 
         }
 
+        /// <summary>
+        /// This method lets you change the page size(amount of tasks displayed on one page)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void PageSizeDropDownList_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // set a new page size
+            TodoGridView.PageSize = Convert.ToInt32(PageSizeDropDownList.SelectedValue);
 
+            // refresh the view to display the change
+            this.GetTask();
         }
     }
 }
