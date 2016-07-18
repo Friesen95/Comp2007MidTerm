@@ -12,6 +12,8 @@ namespace COMP2007_S2016_MidTerm.User_Controls
         public string heading1 { get; set; }
         public string heading2 { get; set; }
 
+        public string heading3 { get; set; }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             

@@ -28,9 +28,11 @@
                          <asp:BoundField DataField="TodoID" HeaderText="ToDo ID" visible="false" />
                          <asp:BoundField DataField="TodoName" HeaderText="Task" Visible="true" SortExpression="TodoName" />
                          <asp:BoundField DataField="TodoNotes" HeaderText="Notes" Visible="true" SortExpression="TodoNotes" />
-                         <asp:TemplateField>
+                         <asp:TemplateField HeaderText="Completed">
                              <ItemTemplate>
-                                 <asp:CheckBox ID="Completed" runat="server" AutoPostBack="true" OnCheckedChanged="Completed_CheckedChanged"/>
+                                 <!-- need to write a method that will see what value is in db and display it on gridVIew  Checked="" -->
+                                 <asp:CheckBox  ID="Completed" runat="server" AutoPostBack="true" OnCheckedChanged="Completed_CheckedChanged" />
+                                    
                              </ItemTemplate>
                          </asp:TemplateField>
                          <asp:HyperLinkField Headertext="Edit" Text="<i class='fa fa-pencil-square-o fa-lg'></i> Edit"
